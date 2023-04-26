@@ -19,7 +19,7 @@ void insertion_sort_list(listint_t **list)
 		new = node->prev;
 		while (new != NULL && node->n < new->n)
 		{
-			swap_node(listint_t **h, listint_t **n1, listint_t *n2);
+			void swap_node(listint_t **h, listint_t **n1, listint_t *n2);
 			print_list((const listint_t *)*list);
 		}
 	}
