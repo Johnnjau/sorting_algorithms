@@ -1,51 +1,44 @@
+#include <stdio.h>
 #include "sort.h"
+
 /**
- * insertion_sort_list - arranges doubly linked list of integers in
- * ascending order
- * @list: doubly linked list of integers
- * swap_node: swaps two adjacent nodes in a linked list.
- * Return: nothing
+ * insertion_sort_list - Sorts a doubly linked list of integers
+ *                        in ascending order using insertion sort algorithm
+ * listint_t: List integer
+ @ list: Double pointer to the head of the list
  */
 void insertion_sort_list(listint_t **list)
 {
-	/* implementation of the insertion_sort_list function that calls swap_node */
-	listint_t *node, *new, *tmp;
+    if (list == NULL || *list == NULL || (*list)->next == NULL)
+        return;
 
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
-		return;
-	for (node = (*list)->next; node != NULL; node = tmp)
-	{
-		tmp = node->next;
-		new = node->prev;
-		while (new != NULL && node->n < new->n)
-		{
-			void swap_node(listint_t **h, listint_t **n1, listint_t *n2);
-			print_list((const listint_t *)*list);
-		}
-	}
-}
+    listint_t *current;
+    listint_t *temp;
 
-/**
- * swap_node - swaps two adjacent nodes in a linked list.
- * @h: pointer to a pointer to the head of the lined
- * @n1: first node pointer
- * @n2: second node pointer
- * Return: void
- */
+    current = (*list)->next;
 
-void swap_node(listint_t **h, listint_t **n1, listint_t *n2)
-{
-	/* implementation of the swap_node function */
-	(*n1)->next = n2->next;
-	if (n2->next != NULL)
-		n2->next->prev = *n1;
-	n2->prev = (*n1)->prev;
-	n2->next = *n1;
-	if ((*n1)->prev != NULL)
-		(*n1)->prev->next = n2;
-	else
-		*h = n2;
-	(*n1)->prev = n2;
-	*n1 = n2->prev;
+    while (current != NULL)
+    {
+        temp = current->next;
+
+        while (current->prev != NULL && current->prev->n > current->n)
+        {
+            current->prev->next = current->next;
+            if (current->next != NULL)
+                current->next->prev = current->prev;
+
+            current->next = current->prev;
+            current->prev = current->prev->prev;
+            current->next->prev = current;
+
+            if (current->prev != NULL)
+                current->prev->next = current;
+            else
+                *list = current;
+            print_list(*list);
+        }
+
+        current = temp;
+    }
 }
 
